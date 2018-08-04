@@ -1,0 +1,27 @@
+- there must be a process that toggles a value after some seconds
+- based on this value other processes must print some data
+
+
+- value true or false
+
+-- make a python process pool
+
+def work_with_rtp():
+    try:
+        sock_client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        sock_client.bind(('', 5004)) #change this to 5004 for RTP and 5005 for RTCP
+
+        sock_server = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        logging.debug('waiting to receive')
+        i = 0
+        pp = pprint.PrettyPrinter(indent = 4)
+        while(i<2):
+            packet, server = sock_client.recvfrom(4096)
+            sock_server.sendto(packet, ('192.168.2.66', 5006))
+            #print parse_rtp_header(packet[0:12])
+            print packet.size
+            i = i+1
+    finally:
+        logging.debug('closing socket')
+        sock_client.close()
+    return

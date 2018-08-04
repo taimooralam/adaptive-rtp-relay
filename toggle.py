@@ -14,7 +14,7 @@ rtp_low_port = 5006
 rtcp_receiver_port = 5009
 
 #remote
-rtp_receiver_ip = '127.0.0.1'
+rtp_receiver_ip = '192.168.2.66'
 rtp_receiver_port = 5008
 
 
@@ -103,11 +103,10 @@ def receiveRTCP(port):
                                     print('Got rtcp')
                                     packet, server = sock_rtcp.recvfrom(4096)
                                     rtcp_receiver_report = unpack('!BBHIIIIIII', packet)
-                                    #if rtcp_receiver_report[9] < config['threshold']:
-                                                #toggle.value = 0
-                                    #else:
-                                                #toggle.value = 1
-                                    toggle.value = rtcp_receiver_report[9]
+                                    if rtcp_receiver_report[9] < config['threshold']:
+                                                toggle.value = 0
+                                    else:
+                                                toggle.value = 1
                                     print("Toggle updated:%d"%toggle.value)
                                     #print(rtcp_receiver_report)
                                     i = i+1
